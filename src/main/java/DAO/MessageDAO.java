@@ -104,7 +104,7 @@ public class MessageDAO {
 
             //foreign key (posted_by) references Account(account_id)
             //message_id integer primary key auto_increment,
-
+            
             preparedStatement.executeUpdate();
             return message;
         }catch(SQLException e){
