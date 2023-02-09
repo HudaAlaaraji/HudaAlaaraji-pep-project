@@ -3,13 +3,6 @@ You should refer to prior mini-project lab examples and course material for guid
 
 
 
-package Application.Service;
-
-import Application.DAO.SocialMediaDAO;
-import Application.Model.SocialMedia;
-
-import java.util.List;
-
 
 public class SocialMediaService {
     public SocialMediaDAO socialmediaDAO;

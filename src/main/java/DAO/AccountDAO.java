@@ -1,0 +1,55 @@
+package DAO;
+
+import Util.ConnectionUtil;
+import Model.Account;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+public class AccountDAO{
+public Account insertAccount(Account account){
+    Connection connection = ConnectionUtil.getConnection();
+    try {
+        //Write SQL logic here
+        String sql = "INSERT INTO account (account_id, username, password) VALUES (?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        //write preparedStatement's setString and setInt methods here.
+        preparedStatement.setInt(1, account.getAccount_id());
+        preparedStatement.setString(2, account.getUsername());
+        preparedStatement.setString(3, account.getPassword());
+
+        preparedStatement.executeUpdate();
+        return account;
+    }catch(SQLException e){
+        System.out.println(e.getMessage());
+    }
+    return null;
+}
+
+    public boolean authenticate(String username, String password)
+            throws Exception {
+        boolean isUser = false;
+        try {
+            Connection connection = ConnectionUtil.getConnection();
+            PreparedStatement statement = connection.prepareStatement("select USRNAME, PASSWORD from ACCOUNT where USERNAME=? and PASSWORD=?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                isUser = true;
+                System.out.println("User authenticated successfully");
+            } else {
+                System.out.println("Invalid username or password!");
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        return isUser;
+    }
+}
+
