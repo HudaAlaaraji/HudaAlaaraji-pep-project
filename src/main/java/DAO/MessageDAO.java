@@ -104,7 +104,7 @@ public class MessageDAO {
 
             //foreign key (posted_by) references Account(account_id)
             //message_id integer primary key auto_increment,
-            
+
             preparedStatement.executeUpdate();
             return message;
         }catch(SQLException e){
@@ -120,7 +120,7 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setString and setInt methods here.
-            preparedStatement.setInt(1, message_id);
+            preparedStatement.setInt(1, message_id());
 
             preparedStatement.executeUpdate();
         }catch(SQLException e){
