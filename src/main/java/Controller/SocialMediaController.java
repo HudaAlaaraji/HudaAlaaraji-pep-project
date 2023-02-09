@@ -3,6 +3,8 @@ package Controller;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+
+
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
@@ -16,18 +18,16 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
-
+        app.get("8080", this::exampleHandler);
         return app;
     }
+
 
     /**
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
     private void exampleHandler(Context context) {
-        context.json("sample text");
+        context.json("jsonObject");
     }
-
-
 }
