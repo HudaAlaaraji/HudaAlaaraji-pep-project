@@ -1,5 +1,4 @@
 
-
 package DAO;
 
 import Util.ConnectionUtil;
@@ -77,7 +76,7 @@ public class MessageDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new message(rs.getInt("account_id"),
+                Message message = new Message(rs.getInt("account_id"),
                         rs.getInt("author_id"),
                         rs.getString("title"),
                         rs.getInt("copies_available"));
