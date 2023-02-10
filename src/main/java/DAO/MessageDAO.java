@@ -17,7 +17,8 @@ public class MessageDAO {
      * You only need to change the sql String.
      * @return all messages.
      */
-    //##4
+    //4: Our API should be able to retrieve all messages.
+
     public List<Message> getAllmessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
@@ -38,7 +39,8 @@ public class MessageDAO {
         }
         return messages;
     }
-    //##5
+
+    //5: Our API should be able to retrieve a message by its ID.
     public Message getMessageBymessage_id(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -64,6 +66,37 @@ public class MessageDAO {
         }
         return null;
     }
+    //6: Our API should be able to delete a message identified by a message ID.
+    public void deleteByMessage_id(Message message_id) {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            //Write SQL logic here
+            String sql = "DELETE FROM message WHERE message_id= ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            //write preparedStatement's setString and setInt methods here.
+            //preparedStatement.setInt(1, message());
+
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    //7: Our API should be able to update a message text identified by a message ID.
+    public void updateMessage(int id, Message message){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+        String sql = "update message where message_id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            //write PreparedStatement setString and setInt methods here.
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    //8:Our API should be able to retrieve all messages written by a particular user.
     public Message getMessageByAccount_id(int account_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -88,6 +121,7 @@ public class MessageDAO {
         }
         return null;
     }
+    //3: Our API should be able to process the creation of new messages.
     public Message insertMessage(Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -110,21 +144,6 @@ public class MessageDAO {
             System.out.println(e.getMessage());
         }
         return null;
-    }
-    public void deleteByMessage_id(Message message_id) {
-        Connection connection = ConnectionUtil.getConnection();
-        try {
-            //Write SQL logic here
-            String sql = "DELETE FROM message WHERE message_id= ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            //write preparedStatement's setString and setInt methods here.
-            //preparedStatement.setInt(1, message());
-
-            preparedStatement.executeUpdate();
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
     }
 }
     

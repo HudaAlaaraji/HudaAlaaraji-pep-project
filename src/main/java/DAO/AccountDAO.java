@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 public class AccountDAO{
+    //1: Our API should be able to process new User registrations.
 public Account insertAccount(Account account){
     Connection connection = ConnectionUtil.getConnection();
     try {
@@ -29,7 +30,7 @@ public Account insertAccount(Account account){
     }
     return null;
 }
-
+//2: Our API should be able to process User logins.
     public boolean authenticate(String username, String password)
             throws Exception {
         boolean isUser = false;
