@@ -99,7 +99,7 @@ public class MessageDAO {
             preparedStatement.setInt(1, message.getMessage_id());
             preparedStatement.setInt(2, message.getPosted_by());
             preparedStatement.setString(3, message.getMessage_text());
-            preparedStatement.setLong(4, message.time_posted_epoch());
+            preparedStatement.setLong(4, message.getTime_posted_epoch());
 
             //foreign key (posted_by) references Account(account_id)
             //message_id integer primary key auto_increment,
@@ -119,7 +119,7 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setString and setInt methods here.
-            preparedStatement.setInt(1, message_id());
+            //preparedStatement.setInt(1, message());
 
             preparedStatement.executeUpdate();
         }catch(SQLException e){
