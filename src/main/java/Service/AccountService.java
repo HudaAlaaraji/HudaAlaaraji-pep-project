@@ -1,14 +1,14 @@
 
 package Service;
-import DAO.AccountDAO; 
-import Model.Message;
-import java.util.List;
+import DAO.AccountDAO;
 
 public class AccountService {
-    public AccountDAO messageDAO;
+     AccountDAO accountDAO;
 
     public AccountService(){
-        AccountDAO accountDAO = new AccountDAO();
-    
+        accountDAO = new AccountDAO();
+    }
+    public AccountService(AccountDAO accountDAO){
+        this.accountDAO = accountDAO;
     }
 }
