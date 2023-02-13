@@ -26,16 +26,15 @@ public class SocialMediaController {
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.post("/register", this::CreatNewUserHandler);
-        app.post("/login", this::processUserproccingHandler);
-        app.post("/messages", this::exampleHandler);
-        app.post("/messages", this::exampleHandler);
-        app.post("/messages/(message_id)", this::exampleHandler);
-        app.post("/register", this::exampleHandler);
-        app.post("/register", this::exampleHandler);
-        app.post("/register", this::exampleHandler);
+        app.post("/login", this::ProcessUserloginHandler);
+        app.post("/messages", this::PostNewMessageHandler);
+        app.post("/messages", this::GetAllNewMessagesHandler);
+        app.post("/messages/(message_id)", this::GetMessagebyIdHandler);
+        app.post("/register", this::DeleteMessagebyIDHandler);
+        app.post("/register", this::UpdatebyIDHandler);
+        app.post("/register", this::GetMessagebyUser_IdHandler);
         return app;
     }
-
 
     /**
      * This is an example handler for an example endpoint.
@@ -44,23 +43,22 @@ public class SocialMediaController {
     private void CreatNewUserHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper om= new ObjectMapper();
         Account account = om.readValue(ctx.body(),Account.class);
-        Account postlogins= AccountService(account);
         if(account != null){
             ctx.json(om.writeValueAsString(account));
-        return null;
     }
         {
         ctx.status(400);
     }
-private void processUserproccingHandler(Context ctx) throws JsonProcessingException{
+    private void ProcessUserloginHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Account account = om.readValue(ctx.body(),Account.class);
     if(account != null){
         ctx.status(401);
     } else
-    ctx.json(om.writeValuestring(postlogins));
+    ctx.json(om.writeValuestring(processlogins));
+    
 }
-public void postNewMessageHandler(Context ctx) throws JsonProcessingException{
+    private void PostNewMessageHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
    Message message = om.readValue(ctx.body(),Message.class);
    if(message != null){
@@ -70,7 +68,7 @@ public void postNewMessageHandler(Context ctx) throws JsonProcessingException{
    }
 
 }
-public void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
+    private void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     int message_id = Integer.parseInt(ctx.pathParam("message_id"));
@@ -82,27 +80,48 @@ public void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
         ctx.json(om.writeValueAsString(UpdatedMessage));
     }
 }
-public void GetAllMessages(Context ctx) throws JsonProcessingException{
+    private void GetAllNewMessagesHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     Message message_text = messageService.GetAllMessages(message);
-    System.out.println(GetAllMessages);
-    if(GetAllMessages == null){
+    System.out.println(GetAllMessage);
+    if(GetAllMessage == null){
         ctx.status(200);
     }else{
         ctx.json(om.writeValueAsString(message));
     }
 }
-public void DeleteMessagebyIDHandler(Context ctx) throws JsonProcessingException{
+    private void GetMessagebyIdHandler(Context ctx) throws JsonProcessingException{
+    ObjectMapper om = new ObjectMapper();
+    Message message_id = om.readValue(ctx.body(), Message.class);
+    if(message_id != null){
+        ctx.status(200);
+    }else{
+        ctx.json(message_id);
+    }
+}
+
+    private void DeleteMessagebyIDHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
-    Message message = messageService.GetMessagebyId(Integer.parseIn(ctx.Pathparam("message")));
+    Message message = messageService.GetMessagebyId(Integer.parseInt(ctx.pathParam("message")));
     if(message != null){
      message = om.readValue(ctx.body(), Message.class);
 }
     Message delete = messageService.DeleteMessagebyId(message.getMessage_id());
     if(delete != null){
-        else 
-    }
         ctx.status(200);
+    }
+    else{
         ctx.json(delete);
+    }
+}
+    private void GetMessagebyUser_IdHandler(Context ctx) throws JsonProcessingException{
+    ObjectMapper om = new ObjectMapper();
+    Account user_id = om.readValue(ctx.body(), Account.class);
+    if(user_id != null){
+        ctx.status(200);
+    }else{
+        ctx.json(user_id);
+    }
+}
     }
