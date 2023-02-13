@@ -13,18 +13,18 @@ public class MessageService {
         this.messageDAO = messageDAO;
     }
     public Message InsertNewMessage(Message message){
-        return messageDAO.InsertNewMessage(message);
+        return messageDAO.insertMessage(message);
     }
-    public Message GetAllMessage(){
-        return messageDAO.GetAllmessage();
+    public List<Message> GetAllMessage(){
+        return messageDAO.GetAllMessages();
     }
     public Message GetMessagebyId(int message_id){
-    return messageDAO.GetMessagebyId(message_id);
+    return messageDAO.getMessageBymessage_id(message_id);
     }
-    public Message DeleteMessagebyId(int message_id){
-        return messageDAO.DeleteMessagebyId(message_id);
+    public void DeleteMessagebyId( Message  message_id){
+         messageDAO.deleteByMessage_id(message_id);
     }
     public Message UpdatebyId(int message_id, Message message){
-        return messageDAO.UpdatebyId(message_id, message);
+        return messageDAO.updateMessage(message_id, message);
     }
 }

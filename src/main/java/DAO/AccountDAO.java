@@ -13,13 +13,11 @@ public class AccountDAO{
 
     //1: Our API should be able to process new User registrations.
 
-public Account insertAccount(Account account){
+public Account CreateNewUser(Account account){
     Connection connection = ConnectionUtil.getConnection();
     try {
         String sql = "INSERT INTO account (account_id, username, password) VALUES (?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-        //write preparedStatement's setString and setInt methods here.
         preparedStatement.setInt(1, account.getAccount_id());
         preparedStatement.setString(2, account.getUsername());
         preparedStatement.setString(3, account.getPassword());

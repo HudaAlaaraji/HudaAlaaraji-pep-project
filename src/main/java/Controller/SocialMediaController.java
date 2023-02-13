@@ -1,5 +1,9 @@
 package Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import Model.*;
+import Service.AccountService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -18,7 +22,14 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("/register", this::exampleHandler);
+        app.post("/register", this::CreatNewUserHandler);
+        app.post("/login", this::processUserproccingHandler);
+        app.post("/messages", this::exampleHandler);
+        app.post("/messages", this::exampleHandler);
+        app.post("/messages/(message_id)", this::exampleHandler);
+        app.post("/register", this::exampleHandler);
+        app.post("/register", this::exampleHandler);
+        app.post("/register", this::exampleHandler);
         return app;
     }
 
@@ -27,7 +38,22 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void exampleHandler(Context context) {
-        context.json("jsonObject");
+    private void CreatNewUserHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper om= new ObjectMapper();
+        Account account = om.readValue(ctx.body(),Account.class);
+        Account postlogins= AccountService.(account);
+        if(postlogins == null || account == null & account.getpassword(.equallsIgnoreCase(anotherString:null)
+            ctx.json(om.writeValuestring(account));
+        } else{
+        ctx.status(400);
     }
+}
+private void processUserproccingHandler(Context ctx) throws JsonProcessingExaption{
+    ObjectMapper om= new ObjectMapper();
+    Account account = om.readValue(ctx.body(), valueType: account.class);
+    if(account != null){
+        ctx.status(401)
+    } else
+    ctx.json(om.writeValuestring(postlogins));
+}
 }
