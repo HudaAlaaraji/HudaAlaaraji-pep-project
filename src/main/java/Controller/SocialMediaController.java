@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Model.*;
 import Service.AccountService;
+import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -41,19 +42,41 @@ public class SocialMediaController {
     private void CreatNewUserHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper om= new ObjectMapper();
         Account account = om.readValue(ctx.body(),Account.class);
-        Account postlogins= AccountService.(account);
-        if(postlogins == null || account == null & account.getpassword(.equallsIgnoreCase(anotherString:null)
-            ctx.json(om.writeValuestring(account));
-        } else{
+        Account postlogins= AccountService(account);
+        if(account != null){
+            ctx.json(om.writeValueAsString(account));
+        return null;
+    }
+        {
         ctx.status(400);
     }
-}
-private void processUserproccingHandler(Context ctx) throws JsonProcessingExaption{
+private void processUserproccingHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
-    Account account = om.readValue(ctx.body(), valueType: account.class);
+    Account account = om.readValue(ctx.body(),Account.class);
     if(account != null){
-        ctx.status(401)
+        ctx.status(401);
     } else
     ctx.json(om.writeValuestring(postlogins));
 }
+public void postNewMessageHandler(Context ctx) throws JsonProcessingException{
+    ObjectMapper om= new ObjectMapper();
+   Message message = om.readValue(ctx.body(),Message.class);
+   if(message != null){
+    ctx.status(400);
+   }else{
+    ctx.json(om.writeValueAsString(message));
+   }
+
+}
+public void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
+    ObjectMapper om= new ObjectMapper();
+    Message message = om.readValue(ctx.body(), Message.class);
+    int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+    Message UpdatedMessage = messageService.UpdatebyId(message_id, message);
+    System.out.println(UpdatedMessage);
+    if(UpdatedMessage == null){
+        ctx.status(400);
+    }else{
+        ctx.json(om.writeValueAsString(UpdatedMessage));
+    }
 }
