@@ -1,5 +1,7 @@
 package Controller;
 
+import javax.lang.model.util.ElementScanner6;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Model.*;
@@ -80,3 +82,27 @@ public void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
         ctx.json(om.writeValueAsString(UpdatedMessage));
     }
 }
+public void GetAllMessages(Context ctx) throws JsonProcessingException{
+    ObjectMapper om= new ObjectMapper();
+    Message message = om.readValue(ctx.body(), Message.class);
+    Message message_text = messageService.GetAllMessages(message);
+    System.out.println(GetAllMessages);
+    if(GetAllMessages == null){
+        ctx.status(200);
+    }else{
+        ctx.json(om.writeValueAsString(message));
+    }
+}
+public void DeleteMessagebyIDHandler(Context ctx) throws JsonProcessingException{
+    ObjectMapper om= new ObjectMapper();
+    Message message = messageService.GetMessagebyId(Integer.parseIn(ctx.Pathparam("message")));
+    if(message != null){
+     message = om.readValue(ctx.body(), Message.class);
+}
+    Message delete = messageService.DeleteMessagebyId(message.getMessage_id());
+    if(delete != null){
+        else 
+    }
+        ctx.status(200);
+        ctx.json(delete);
+    }
