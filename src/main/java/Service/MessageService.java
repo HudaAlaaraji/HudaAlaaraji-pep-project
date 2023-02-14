@@ -27,4 +27,10 @@ public class MessageService {
     public Message UpdatebyId(int message_id, Message message){
         return messageDAO.updateMessage(message_id, message);
     }
+    public Message RetrieveMessagebyID(int message_id, int account_id) {
+        return null;
+    }
+    public List<Message> RetrieveAllmessages() {
+        return null;
+    }
 }

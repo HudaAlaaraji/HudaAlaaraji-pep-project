@@ -18,5 +18,11 @@ public class AccountService {
     public boolean authenticate(String username, String password) throws Exception{
     return accountDAO.authenticate(username, password);
     }
+    public Account addAccount(Account account) {
+        return null;
+    }
+    public Account ProcessUserLogin(String username, String password) {
+        return null;
+    }
     }
 
