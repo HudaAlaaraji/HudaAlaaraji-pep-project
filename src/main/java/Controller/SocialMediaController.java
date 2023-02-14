@@ -106,11 +106,11 @@ public class SocialMediaController {
     
      //#5
      private void RetrieveMessagebyIdHandler(Context ctx) throws JsonProcessingException{
-        ObjectMapper om = new ObjectMapper();
+       
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         int account_id = Integer.parseInt(ctx.pathParam("account_id"));
         Message message =messageService.RetrieveMessagebyID(message_id, account_id);
-        if(message == null){
+        if(message != null){
             ctx.status(200);
         }
     }
@@ -118,7 +118,7 @@ public class SocialMediaController {
     private void DeleteMessagebyIdHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper om= new ObjectMapper();
         Message message = om.readValue(ctx.body(), Message.class);
-        if(message != null){
+        if(message == null){
             ctx.status(200);
         }
     }
