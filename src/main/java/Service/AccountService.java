@@ -24,5 +24,8 @@ public class AccountService {
     public Account ProcessUserLogin(String username, String password) {
         return null;
     }
+    public Account authenticates(String username, String password) {
+        return null;
+    }
     }
 
