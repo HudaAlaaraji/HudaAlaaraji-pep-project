@@ -29,21 +29,19 @@ public class SocialMediaController {
      */
     { this.accountService =new AccountService();
         this.messageService = new MessageService();
-
     }
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.post("/register", this::CreatNewUserHandler);
         app.post("/login", this::authenticateHandler);
         app.post("/messages", this::CreatNewMessageHandler);
-        app.post("/messages", this::RetrieveAllMessagesHandler);
-        app.post("/messages/(message_id)", this::RetrieveMessagebyIdHandler);
-        app.post("/register", this::DeleteMessagebyIdHandler);
-        app.post("/register", this::UpdatebyIdHandler);
+        app.get("/messages", this::RetrieveAllMessagesHandler);
+        app.get("/messages/(message_id)", this::RetrieveMessagebyIdHandler);
+        app.delete("/messages/(message_id)", this::DeleteMessagebyIdHandler);
+        app.patch("/messages/(message_id)", this::UpdatebyIdHandler);
         app.post("/register", this::GetMessagebyUser_IdHandler);
         return app;
     }
-
     /**
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
@@ -72,7 +70,6 @@ public class SocialMediaController {
     } else{
         ctx.status(401);
     }
-    
 }
     //#3
     private void CreatNewMessageHandler(Context ctx) throws JsonProcessingException{
@@ -95,15 +92,7 @@ public class SocialMediaController {
     private void RetrieveAllMessagesHandler(Context ctx) throws JsonProcessingException{
         List <Message> messages = messageService.RetrieveAllmessages();
         ctx.json(messages);
-    }
-       // ObjectMapper mapper = new ObjectMapper();
-        //Message message = mapper.readValue(ctx.body(), Message.class);
-        //if(message!= null){
-         //ctx.json(mapper.writeValueAsString(message));
-        //}else{
-          //  ctx.status(200);
-        
-    
+    } 
      //#5
      private void RetrieveMessagebyIdHandler(Context ctx) throws JsonProcessingException{
        
@@ -122,10 +111,6 @@ public class SocialMediaController {
             ctx.status(200);
         }
     }
-
-    //   Message message = messageService.DeletMessagebyId(Integer.parseInt(ctx.pathParam("message")));
-       // message = om.readValue(ctx.body(), Message.class);
-//Message delete = messageService.DeleteMessagebyId(message.getMessage_id());
     //#7
     private void UpdatebyIdHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
@@ -151,5 +136,3 @@ public class SocialMediaController {
     }
 }
     }
-    //// int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-    //// Message UpdatedMessage = messageService.UpdatebyId(message_id, message);

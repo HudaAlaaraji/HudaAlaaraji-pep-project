@@ -20,10 +20,14 @@ public Account CreateNewUser(Account account){
         preparedStatement.setString(2, account.getUsername());
         preparedStatement.setString(3, account.getPassword());
         preparedStatement.executeUpdate();
-        return account;
+        ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
+            if(pkeyResultSet.next()){
+                int generated_flight_id = (int) pkeyResultSet.getLong(1);
+                return account;
     }catch(SQLException e){
         System.out.println(e.getMessage());
     }
+
     return null;
 }
 //2: Our API should be able to process User logins.
