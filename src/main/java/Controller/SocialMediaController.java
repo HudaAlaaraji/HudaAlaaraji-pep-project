@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.List;
+
 import javax.lang.model.util.ElementScanner6;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -58,46 +60,58 @@ public class SocialMediaController {
     ctx.json(om.writeValuestring(processlogins));
     
 }
-    private void PostNewMessageHandler(Context ctx) throws JsonProcessingException{
+    //#3
+    private void CreatNewMessageHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
    Message message = om.readValue(ctx.body(),Message.class);
    if(message != null){
-    ctx.status(400);
+    ctx.status(200);
    }else{
-    ctx.json(om.writeValueAsString(message));
+    ctx.status(400);
    }
-
 }
+    //#4
+    private void RetrieveAllMessagesHandler(Context ctx){
+        List<Message> message = messageService.RetrieveAllMessages();
+    }
+     ctx.json(message);
+
+    }
+     //#5
+     private void RetrieveMessagebyIdHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper om = new ObjectMapper();
+        Message message_id = om.readValue(ctx.body(), Message.class);
+        if(message_id != null){
+            ctx.status(200);
+        }else{
+            ctx.json(message_id);
+        }
+    }
+    //#6
+    private void DeleteMessagebyIDHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper om= new ObjectMapper();
+        Message message = messageService.GetMessagebyId(Integer.parseInt(ctx.pathParam("message")));
+        if(message != null){
+         message = om.readValue(ctx.body(), Message.class);
+    }
+        Message delete = messageService.DeleteMessagebyId(message.getMessage_id());
+        if(delete != null){
+            ctx.status(200);
+        }
+        else{
+            ctx.json(delete);
+        }
+    }
     private void UpdatebyIDHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-    Message UpdatedMessage = messageService.UpdatebyId(message_id, message);
+    Message UpdatedMessage = messageService.UpdatebyID(message_id, message);
     System.out.println(UpdatedMessage);
     if(UpdatedMessage == null){
         ctx.status(400);
     }else{
         ctx.json(om.writeValueAsString(UpdatedMessage));
-    }
-}
-    private void GetAllNewMessagesHandler(Context ctx) throws JsonProcessingException{
-    ObjectMapper om= new ObjectMapper();
-    Message message = om.readValue(ctx.body(), Message.class);
-    Message message_text = messageService.GetAllMessages(message);
-    System.out.println(GetAllMessage);
-    if(GetAllMessage == null){
-        ctx.status(200);
-    }else{
-        ctx.json(om.writeValueAsString(message));
-    }
-}
-    private void GetMessagebyIdHandler(Context ctx) throws JsonProcessingException{
-    ObjectMapper om = new ObjectMapper();
-    Message message_id = om.readValue(ctx.body(), Message.class);
-    if(message_id != null){
-        ctx.status(200);
-    }else{
-        ctx.json(message_id);
     }
 }
 
