@@ -14,9 +14,9 @@ public class AccountService {
     }
     public Account CreateNewUser(Account account){
         return accountDAO.CreateNewUser(account);
-}
-public boolean authenticate(String username, String password) throws Exception{
+    }
+    public boolean authenticate(String username, String password) throws Exception{
     return accountDAO.authenticate(username, password);
-}
-}
+    }
+    }
 
