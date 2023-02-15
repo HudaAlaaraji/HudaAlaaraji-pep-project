@@ -108,26 +108,25 @@ public class MessageDAO {
         }
     }
 
-
     //8:Our API should be able to retrieve all messages written by a particular user.
 
-    public List<Message> GetMessagebyUser_Id(int account_id){
+    public Message GetMessagebyUser_Id(int posted_by){
         Connection connection = ConnectionUtil.getConnection();
-        List<Message>messages = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM message WHERE account_id = ?";
+            String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, account_id);
+            preparedStatement.setInt(1, posted_by);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new Message(rs.getInt("message_id"), 
-                rs.getInt("posted_by"), rs.getString("message_text"),
+                Message message = new Message(rs.getInt("posted_by"), 
+                rs.getString("message_text"),
                 rs.getLong("time_posted_epoch"));
-                 messages.add(message);
+                System.out.println(message);
+                 return message;
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return messages;
+        return null;
     }
 }
