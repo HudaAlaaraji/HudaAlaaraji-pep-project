@@ -15,8 +15,8 @@ public class AccountService {
     public Account CreateNewUser(Account account){
         return accountDAO.CreateNewUser(account);
     }
-    public boolean authenticate(String username, String password) throws Exception{
-    return accountDAO.authenticate(username, password);
+    public Boolean Login(String username, String password)throws Exception {
+    return accountDAO.login(username, password);
     }
     public Account addAccount(Account account) {
         return null;
@@ -24,7 +24,7 @@ public class AccountService {
     public Account ProcessUserLogin(String username, String password) {
         return null;
     }
-    public Account authenticates(String username, String password) {
+    public Account login(String username, String password) {
         return null;
     }
     public Account logins(String username, String password) {

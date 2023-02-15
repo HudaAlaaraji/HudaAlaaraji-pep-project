@@ -2,8 +2,6 @@ package Controller;
 
 import java.util.List;
 
-import javax.lang.model.util.ElementScanner6;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Model.*;
@@ -11,7 +9,6 @@ import Service.AccountService;
 import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
 
 
 /**

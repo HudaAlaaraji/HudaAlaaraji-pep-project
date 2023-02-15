@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 public class AccountDAO{
 
     //1: Our API should be able to process new User registrations.
@@ -35,24 +33,30 @@ public Account CreateNewUser(Account account){
 }
 //2: Our API should be able to process User logins.
 
-    public List<Account>login(String username, String password){
-        Connection connection = ConnectionUtil.getConnection();
-        List<Account> accounts = new ArrayList<>();
-        try {
-            String sql = ("select USERNAME, PASSWORD from ACCOUNT where USERNAME=? and PASSWORD=?");
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                Account account = new Account(rs.getInt("account_id"), rs.getString("username"),
-                 rs.getString("password"));
-                 accounts.add(account);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return accounts;
-    }
+public boolean Login(String username, String password)
+throws Exception {
+boolean isUser = false;
+try {
+Connection connection = ConnectionUtil.getConnection();
+PreparedStatement statement = connection.prepareStatement("select USERNAME, PASSWORD from ACCOUNT where USERNAME=? and PASSWORD=?");
+statement.setString(1, username);
+statement.setString(2, password);
+ResultSet result = statement.executeQuery();
+if (result.next()) {
+    isUser = true;
+    System.out.println("User login successfully");
+} else {
+    System.out.println("Invalid username or password!");
+}
+} catch (Exception e) {
+System.out.println("Error");
+e.printStackTrace();
+}
+return isUser;
+}
+
+public Boolean login(String username, String password) {
+    return null;
+}
 }
 
