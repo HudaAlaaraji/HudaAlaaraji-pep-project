@@ -94,7 +94,7 @@ public class MessageDAO {
     }
     //7: Our API should be able to update a message text identified by a message ID.
 
-    public void updateMessage(int id, Message message){
+    public void UpdatebyId(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
         String sql = "update message set posted_by= ? , message_text= ? , Time_posted_epoch= ? where message_id = ?;";

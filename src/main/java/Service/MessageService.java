@@ -24,8 +24,8 @@ public class MessageService {
     public void DeleteMessagebyId( Message  message_id){
          messageDAO.deleteByMessage_id(message_id);
     }
-    public Message UpdatebyId(int message_id, Message message){
-        return messageDAO.UpdatebyId(message_id, message);
+    public void UpdatebyId(int id, Message message){
+         messageDAO.UpdatebyId(id, message);
     }
     public Message GetMessagebyUser_Id(int message_id, int account_id) {
         return null;
