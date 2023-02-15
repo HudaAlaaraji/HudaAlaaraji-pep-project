@@ -21,11 +21,11 @@ public class MessageService {
     public Message RetrieveMessagebyId(int message_id){
     return messageDAO.RetrieveMessagebyId(message_id);
     }
-    public void DeleteMessagebyId( Message  message_id){
-         messageDAO.deleteByMessage_id(message_id);
+    public void DeleteMessagebyId(String message_text, int message_id){
+         messageDAO.deleteByMessage_id(message_text, message_id);
     }
-    public void UpdatebyId(int id, Message message){
-         messageDAO.UpdatebyId(id, message);
+    public void UpdatebyId(int message_id, Message message){
+         messageDAO.UpdatebyId(message_id, message);
     }
     public Message GetMessagebyUser_Id(int message_id, int account_id) {
         return null;

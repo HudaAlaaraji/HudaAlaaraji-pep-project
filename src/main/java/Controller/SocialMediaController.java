@@ -24,7 +24,8 @@ public class SocialMediaController {
      * suite must receive a Javalin object from this method.
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
-    { this.accountService =new AccountService();
+    public SocialMediaController(){ 
+        this.accountService =new AccountService();
         this.messageService = new MessageService();
     }
     public Javalin startAPI() {
@@ -37,7 +38,7 @@ public class SocialMediaController {
         app.delete("/messages/(message_id)", this::DeleteMessagebyIdHandler);
         app.patch("/messages/(message_id)", this::UpdatebyIdHandler);
         app.post("/register", this::GetMessagebyUser_IdHandler);
-        return app;
+        app.start(8080);
     }
     /**
      * This is an example handler for an example endpoint.
@@ -94,8 +95,7 @@ public class SocialMediaController {
      private void RetrieveMessagebyIdHandler(Context ctx) throws JsonProcessingException{
        
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        int account_id = Integer.parseInt(ctx.pathParam("account_id"));
-        Message message =messageService.RetrieveMessagebyID(message_id, account_id);
+        Message message =messageService.RetrieveMessagebyId(message_id);
         if(message != null){
             ctx.status(200);
         }
@@ -133,3 +133,8 @@ public class SocialMediaController {
     }
 }
     }
+/*
+
+
+
+*/ 

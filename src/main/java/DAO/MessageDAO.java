@@ -82,11 +82,13 @@ public class MessageDAO {
     }
     //6: Our API should be able to delete a message identified by a message ID.
 
-    public void deleteByMessage_id(Message message_id) {
+    public void deleteByMessage_id(String message_text, int message_id) {
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "DELETE FROM message WHERE message_id= ?)";
+            String sql = "DELETE message set message_text=? WHERE message_id= ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, message_text);
+            preparedStatement.setInt(2, message_id);
             preparedStatement.executeUpdate();
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -94,20 +96,18 @@ public class MessageDAO {
     }
     //7: Our API should be able to update a message text identified by a message ID.
 
-    public void UpdatebyId(int id, Message message){
+    public void UpdatebyId(int message_id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-        String sql = "update message set posted_by= ? , message_text= ? , Time_posted_epoch= ? where message_id = ?;";
+        String sql = "update message set message_text= ? where message_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(2, message.getPosted_by());
-            preparedStatement.setString(3, message.getMessage_text());
-            preparedStatement.setLong(4, message.getTime_posted_epoch());
+            preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setInt(2, message.getMessage_id());
             preparedStatement.executeUpdate();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
     }
-
     //8:Our API should be able to retrieve all messages written by a particular user.
 
     public Message GetMessagebyUser_Id(int posted_by){
