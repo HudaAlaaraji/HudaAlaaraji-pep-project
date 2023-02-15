@@ -17,7 +17,7 @@ public class MessageDAO {
 
     //3: Our API should be able to process the creation of new messages.
 
-    public Message insertNewMessages(Message message){
+    public Message CreateNewMessage(Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
             String sql = "INSERT INTO Message (message_id, posted_by, message_text, time_posted_epoch) VALUES (?,?,?,?)";
@@ -27,15 +27,19 @@ public class MessageDAO {
             preparedStatement.setString(3, message.getMessage_text());
             preparedStatement.setLong(4, message.getTime_posted_epoch());
             preparedStatement.executeUpdate();
-            return message;
-        }catch(SQLException e){
+            ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
+            if(pkeyResultSet.next()){
+                int generated_message_id = (int) pkeyResultSet.getLong(1);
+                return new Message(generated_message_id, message.getMessage_id(), message.getMessage_text(),message.getTime_posted_epoch());
+        }
+    }catch(SQLException e){
             System.out.println(e.getMessage());
         }
         return null;
     }
     //4: Our API should be able to retrieve all messages.
 
-    public List<Message> GetAllMessages(){
+    public List<Message> RetrieveAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
@@ -52,25 +56,24 @@ public class MessageDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return messages;
     }
-
+    
     //5: Our API should be able to retrieve a message by its ID.
 
-    public Message getMessageBymessage_id(int message_id){
+    public Message RetrieveMessagebyId(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "SELECT * FROM Message WHERE message_id = ?";
+            String sql = "SELECT * FROM message WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, message_id);
+            preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message Messages = new Message(rs.getInt("message_id"),
+                Message message = new Message(rs.getInt("message_id"),
                 rs.getInt("posted_by"),
                         rs.getString("message_text"),
                         rs.getLong("time_posted_epoch"));
-                        System.out.println(message_id);
-                return Messages;
+                return message;
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -91,36 +94,35 @@ public class MessageDAO {
     }
     //7: Our API should be able to update a message text identified by a message ID.
 
-    public Message updateMessage(int id, Message message){
+    public void updateMessage(int id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-        String sql = "update message where message_id = ?;";
+        String sql = "update message set posted_by= ? , message_text= ? , Time_posted_epoch= ? where message_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(3, id);
+            preparedStatement.setInt(2, message.getPosted_by());
+            preparedStatement.setString(3, message.getMessage_text());
+            preparedStatement.setLong(4, message.getTime_posted_epoch());
             preparedStatement.executeUpdate();
-            message.setMessage_id(id);
-            return message;
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
     }
+
+
     //8:Our API should be able to retrieve all messages written by a particular user.
 
-    public List<Message> getMessageByAccount_id(int account_id){
+    public List<Message> GetMessagebyUser_Id(int account_id){
         Connection connection = ConnectionUtil.getConnection();
         List<Message>messages = new ArrayList<>();
         try {
-            //Write SQL logic here
             String sql = "SELECT * FROM message WHERE account_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, account_id);
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new Message(rs.getInt("message_id"),
-                rs.getInt("posted_by"),
-                        rs.getString("message_text"),
-                        rs.getLong("time_posted_epoch"));
+                Message message = new Message(rs.getInt("message_id"), 
+                rs.getInt("posted_by"), rs.getString("message_text"),
+                rs.getLong("time_posted_epoch"));
                  messages.add(message);
             }
         }catch(SQLException e){
@@ -128,23 +130,4 @@ public class MessageDAO {
         }
         return messages;
     }
-    //3: Our API should be able to process the creation of new messages.
-
-    public Message insertMessage(Message message){
-        Connection connection = ConnectionUtil.getConnection();
-        try {
-            String sql = "INSERT INTO message (message_id, posted_by, message_text, time_posted_epoch) VALUES (?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, message.getMessage_id());
-            preparedStatement.setInt(2, message.getPosted_by());
-            preparedStatement.setString(3, message.getMessage_text());
-            preparedStatement.setLong(4, message.getTime_posted_epoch());
-            preparedStatement.executeUpdate();
-            return message;
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
 }
-    

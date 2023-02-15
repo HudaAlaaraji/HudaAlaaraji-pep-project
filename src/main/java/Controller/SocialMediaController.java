@@ -77,7 +77,7 @@ public class SocialMediaController {
     ctx.status(400);
    return;
    }
-   Message newmessage =messageService.InsertNewMessage(message);
+   Message newmessage =messageService.CreateNewMessage(message);
    if(newmessage != null){
     ctx.json(mapper.writeValueAsString(newmessage));
     ctx.status(200);
