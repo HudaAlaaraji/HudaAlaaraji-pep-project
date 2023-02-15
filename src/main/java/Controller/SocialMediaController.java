@@ -80,7 +80,7 @@ public class SocialMediaController {
     private void LoginHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Account account = om.readValue(ctx.body(),Account.class);
-    Account newlogin = accountService.logins(account.username, account.password);
+    Account newlogin = accountService.login(account.username, account.password);
     if(newlogin != null){
         ctx.json(om.writeValueAsString(newlogin));
     } else{
@@ -116,7 +116,7 @@ public class SocialMediaController {
     The response status should always be 200, which is the default.
      */
     public void RetrieveAllMessagesHandler(Context ctx){
-        List <Message> messages = messageService.RetrieveAllmessages();
+        List <Message> messages = messageService.RetrieveAllMessages();
         ctx.json(messages);
     } 
      //#5
@@ -165,7 +165,7 @@ public class SocialMediaController {
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-    Object updatedMessage = messageService.UpdatebyId(message_id, message);
+    Message updatedMessage = messageService.UpdatebyId(message_id, message);
     System.out.println(updatedMessage);
     if(updatedMessage == null){
         ctx.status(400);
