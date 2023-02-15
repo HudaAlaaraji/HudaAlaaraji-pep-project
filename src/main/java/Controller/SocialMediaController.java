@@ -89,48 +89,45 @@ public class SocialMediaController {
 }
     //#3
     /*
-     * As a user, I should be able to submit a new post on the endpoint POST localhost:8080/messages. The request body will contain a JSON representation of a message, which should be persisted to the database, but will not contain a message_id.
-
-The creation of the message will be successful if and only if the message_text is not blank, is under 255 characters, and posted_by refers to a real, existing user. If successful, the response body should contain a JSON of the message, including its message_id. The response status should be 200, which is the default. The new message should be persisted to the database.
-If the creation of the message is not successful, the response status should be 400. (Client error)
+     * As a user, I should be able to submit a new post on the endpoint POST localhost:8080/messages.
+     * The request body will contain a JSON representation of a message, which should be persisted 
+     * to the database, but will not contain a message_id.The creation of the message will be successful
+     *  if and only if the message_text is not blank, is under 255 characters, and posted_by refers to 
+     * a real, existing user. If successful, the response body should contain a JSON of the message, 
+     * including its message_id. The response status should be 200, which is the default.The new message
+     *  should be persisted to the database.If the creation of the message is not successful,
+     *  the response status should be 400. (Client error)
      */
-    private void CreatNewMessageHandler(Context ctx) throws JsonProcessingException{
+    private void CreatNewMessageHandler(Context ctx) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
    Message message = mapper.readValue(ctx.body(), Message.class);
-   if(message.getMessage_text().isBlank()){
-    ctx.json(mapper.writeValueAsString(message));
-    ctx.status(400);
-   return;
-   }
-   Message newmessage =messageService.CreateNewMessage(message);
-   if(newmessage != null){
-    ctx.json(mapper.writeValueAsString(newmessage));
-    ctx.status(200);
-} else{
-    ctx.status(401);
-   }
-}
+   Message addedMessage = messageService.addMessage(message);
+        if(addedMessage!=null){
+            ctx.json(mapper.writeValueAsString(addedMessage));
+        }else{
+            ctx.status(400);
+        }
+    }
     //#4
     /*
      * As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/messages.
-
-The response body should contain a JSON representation of a list containing all messages retrieved from the database. 
-It is expected for the list to simply be empty if there are no messages. The response status should always be 200, which is the default.
+    The response body should contain a JSON representation of a list containing all messages retrieved 
+    from the database. It is expected for the list to simply be empty if there are no messages. 
+    The response status should always be 200, which is the default.
      */
-    private void RetrieveAllMessagesHandler(Context ctx) throws JsonProcessingException{
+    public void RetrieveAllMessagesHandler(Context ctx){
         List <Message> messages = messageService.RetrieveAllmessages();
         ctx.json(messages);
     } 
      //#5
      /*
-      * As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/messages/{message_id}.
-
-The response body should contain a JSON representation of the message identified by the message_id. It is expected for the response body to simply be empty if there is no such message.
- The response status should always be 200, which is the default.
+      * As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/messages/
+      {message_id}.The response body should contain a JSON representation of the message identified by 
+      the message_id. It is expected for the response body to simply be empty if there is no such message.
+    The response status should always be 200, which is the default.
       */
      private void RetrieveMessagebyIdHandler(Context ctx) throws JsonProcessingException{
-       
-        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+       int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message message =messageService.RetrieveMessagebyId(message_id);
         if(message != null){
             ctx.status(200);
@@ -138,13 +135,12 @@ The response body should contain a JSON representation of the message identified
     }
     //#6
     /*
-     * As a User, I should be able to submit a DELETE request on the endpoint DELETE localhost:8080/messages/{message_id}.
-
-The deletion of an existing message should remove an existing message from the database. If the message existed, 
-the response body should contain the now-deleted message. 
-The response status should be 200, which is the default.
-If the message did not exist, the response status should be 200, but the response body should be empty. 
-This is because the DELETE verb is intended to be idempotent, ie, multiple calls to the DELETE endpoint should respond with the same type of response.
+     * As a User, I should be able to submit a DELETE request on the endpoint DELETE localhost:8080/messages/
+     * {message_id}.The deletion of an existing message should remove an existing message from the database. 
+     * If the message existed, the response body should contain the now-deleted message.The response status 
+     * should be 200, which is the default.the message did not exist, the response status should be 200,
+     *  but the response body should be empty.This is because the DELETE verb is intended to be idempotent,
+     *  ie, multiple calls to the DELETE endpoint should respond with the same type of response.
      */
     private void DeleteMessagebyIdHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper om= new ObjectMapper();
@@ -155,38 +151,40 @@ This is because the DELETE verb is intended to be idempotent, ie, multiple calls
     }
     //#7
     /*
-     * As a user, I should be able to submit a PATCH request on the endpoint PATCH localhost:8080/messages/{message_id}. 
-     * The request body should contain a new message_text values to replace the message identified by message_id. 
-     * The request body can not be guaranteed to contain any other information.
-     * The update of a message should be successful if and only if the message id already exists and the new message_text is not blank and is not over 255 characters.
-     *  If the update is successful, the response body should contain the full updated message (including message_id, posted_by, 
-     * message_text, and time_posted_epoch), and the response status should be 200, which is the default. The message existing on the database should have the updated message_text.
-     * If the update of the message is not successful for any reason, the response status should be 400. (Client error)
+     * As a user, I should be able to submit a PATCH request on the endpoint PATCH localhost:8080/messages/
+     * {message_id}.The request body should contain a new message_text values to replace the message 
+     * identified by message_id.The request body can not be guaranteed to contain any other information.
+     * The update of a message should be successful if and only if the message id already exists and 
+     * the new message_text is not blank and is not over 255 characters. If the update is successful, 
+     * the response body should contain the full updated message (including message_id, posted_by, 
+     * message_text, and time_posted_epoch), and the response status should be 200, which is the default.
+     *  The message existing on the database should have the updated message_text. If the update of
+     *  the message is not successful for any reason, the response status should be 400. (Client error)
      */
     private void UpdatebyIdHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-    Message UpdatedMessage = messageService.UpdatebyId(message_id, message);
-    System.out.println(UpdatedMessage);
-    if(UpdatedMessage != null){
-        ctx.status(200);
-        ctx.json(om.writeValueAsString(UpdatedMessage));
+    Message updatedMessage = messageService.UpdatebyId(message_id, message);
+    System.out.println(updatedMessage);
+    if(updatedMessage == null){
+        ctx.status(400);
+    }else{
+    ctx.json(om.writeValueAsString(updatedMessage));
     }
-    ctx.status(400);
     }
     //#8
     /*
-     * As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/accounts/{account_id}/messages.
-
-The response body should contain a JSON representation of a list containing all messages posted by a particular user, which is retrieved from the database. 
-It is expected for the list to simply be empty if there are no messages. The response status should always be 200, which is the default.
+     * As a user, I should be able to submit a GET request on the endpoint GET localhost:8080/accounts/
+     * {account_id}/messages.The response body should contain a JSON representation of a list containing
+     *  all messages posted by a particular user, which is retrieved from the database.It is expected for 
+     * the list to simply be empty if there are no messages. The response status should always be 200,
+     *  which is the default.
      */
     private void GetMessagebyUser_IdHandler(Context ctx) throws JsonProcessingException{
     ObjectMapper om = new ObjectMapper();
     Account user_id = om.readValue(ctx.body(), Account.class);
     if(user_id != null){
-        ctx.status(200);
         ctx.json(om.writeValueAsString(user_id));
     }else{
         ctx.status(200);
