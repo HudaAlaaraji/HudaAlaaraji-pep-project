@@ -165,7 +165,7 @@ public class SocialMediaController {
     ObjectMapper om= new ObjectMapper();
     Message message = om.readValue(ctx.body(), Message.class);
     int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-    Message updatedMessage = messageService.UpdatebyId(message_id, message);
+    Object updatedMessage = messageService.UpdatebyId(message_id, message);
     System.out.println(updatedMessage);
     if(updatedMessage == null){
         ctx.status(400);
@@ -189,5 +189,5 @@ public class SocialMediaController {
     }else{
         ctx.status(200);
     }
-}
     }
+}

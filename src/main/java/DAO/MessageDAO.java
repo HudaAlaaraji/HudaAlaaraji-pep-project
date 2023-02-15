@@ -129,4 +129,19 @@ public class MessageDAO {
         }
         return null;
     }
+
+    public Object getUpdatebyId(int message_id) {
+        return null;
+    }
+
+    public Object UpdatebyId(int message_id) {
+        return null;
+    }
+
+    public void DeleteMessagebyId(String message_text, int message_id) {
+    }
+
+    public List<Message> GetMessagebyUser_Id(int message_id, int account_id2) {
+        return null;
+    }
 }

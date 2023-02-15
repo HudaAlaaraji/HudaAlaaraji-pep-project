@@ -4,7 +4,7 @@ import Model.Message;
 import java.util.List;
 
 public class MessageService {
-    public MessageDAO messageDAO;
+     MessageDAO messageDAO;
 
     public MessageService(){
         messageDAO = new MessageDAO();
@@ -12,34 +12,33 @@ public class MessageService {
     public MessageService(MessageDAO messageDAO){
         this.messageDAO = messageDAO;
     }
+    //3
     public Message CreateNewMessage(Message message){
         return messageDAO.CreateNewMessage(message);
     }
-    public List<Message> GetAllMessage(){
+    //4
+    public List<Message> RetrieveAllMessages(){
         return messageDAO.RetrieveAllMessages();
     }
+    //5
     public Message RetrieveMessagebyId(int message_id){
     return messageDAO.RetrieveMessagebyId(message_id);
     }
+    //6
     public void DeleteMessagebyId(String message_text, int message_id){
-         messageDAO.deleteByMessage_id(message_text, message_id);
+         messageDAO.DeleteMessagebyId(message_text, message_id);
     }
-    public Message UpdatebyId(int message_id, Message message){
-        if(messageDAO.getUpdatebyId(message_id)==null){
-            return null;
+    //7
+    public void UpdatebyId(int message_id, Message message){
+        if(messageDAO.UpdatebyId(message_id)==null){
         }
         else{
             messageDAO.UpdatebyId(message_id, message);
         }
-        return messageDAO.getUpdatebyId(message_id);
     }
-    public Message GetMessagebyUser_Id(int message_id, int account_id) {
-        return null;
+     //8
+      public List<Message> GetMessagebyUser_Id(int message_id, int account_id){
+    return messageDAO.GetMessagebyUser_Id(message_id, account_id);
+      }
     }
-    public List<Message> RetrieveAllmessages() {
-        return null;
-    }
-    public Message addMessage(Message message) {
-        return null;
-    }
-}
+       

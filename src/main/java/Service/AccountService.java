@@ -18,17 +18,7 @@ public class AccountService {
     public Boolean Login(String username, String password)throws Exception {
     return accountDAO.login(username, password);
     }
-    public Account addAccount(Account account) {
-        return null;
-    }
-    public Account ProcessUserLogin(String username, String password) {
-        return null;
-    }
-    public Account login(String username, String password) {
-        return null;
-    }
-    public Account logins(String username, String password) {
-        return null;
-    }
-    }
+}
 
+
+    
