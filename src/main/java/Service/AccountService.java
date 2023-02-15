@@ -27,5 +27,8 @@ public class AccountService {
     public Account authenticates(String username, String password) {
         return null;
     }
+    public Account logins(String username, String password) {
+        return null;
+    }
     }
 
